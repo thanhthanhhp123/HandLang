@@ -43,6 +43,7 @@ class HandDataset(Dataset):
     
 if __name__ == '__main__':
     transform = transforms.Compose([
+        transforms.Grayscale(),
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(),
         # transforms.RandomVerticalFlip(),
