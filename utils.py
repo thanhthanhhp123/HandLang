@@ -32,6 +32,9 @@ class HandDataset(Dataset):
     def __len__(self):
         return len(self.dataset)
     
+    def get_classes(self):
+        return self.classes
+    
     def __getitem__(self, idx):
         mask, label = self.dataset[idx]
         # mask = Image.fromarray(mask)
@@ -43,7 +46,7 @@ class HandDataset(Dataset):
     
 if __name__ == '__main__':
     transform = transforms.Compose([
-        transforms.Grayscale(),
+        # transforms.Grayscale(),
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(),
         # transforms.RandomVerticalFlip(),
@@ -53,11 +56,8 @@ if __name__ == '__main__':
     dataset = HandDataset('data_mask', transform=transform)
     dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
     
-    import matplotlib.pyplot as plt
     for mask, label in dataloader:
-        print(mask.size(), label)
-        plt.imshow(mask[0].permute(1, 2, 0), cmap='gray')
-        plt.show()
+        print(mask.shape, label)
         break
 
 

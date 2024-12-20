@@ -10,9 +10,6 @@ from PIL import Image
 import copy 
 import time
 
-prediction = ''
-score = 0
-bgModel = None
 
 classes = os.listdir('data_mask')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -54,8 +51,8 @@ def camera():
         
         frame = cv2.flip(frame, 1)
         cv2.rectangle(frame, (int(cap_region_x_begin * frame.shape[1]), 0), (frame.shape[1], int(cap_region_y_end * frame.shape[0])), (0, 255, 0), 2)
-        
-        prediction = predict(frame[int(0.5 * frame.shape[0]):, int(0.5 * frame.shape[1]):])
+        roi = frame[0:int(cap_region_y_end * frame.shape[0]), int(cap_region_x_begin * frame.shape[1]):]
+        prediction = predict(roi)
         cv2.putText(frame, prediction, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
         cv2.imshow('frame', frame)

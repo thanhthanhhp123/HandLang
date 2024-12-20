@@ -16,7 +16,6 @@ def compute_metrics(y_true, y_pred):
     return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
 
 transform = transforms.Compose([
-    transforms.Grayscale(),
     transforms.Resize((224, 224)),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
@@ -32,7 +31,6 @@ train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
 model = resnet50(weights='DEFAULT')
-model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 model.fc = nn.Linear(2048, len(dataset.classes))
 model = model.cuda()
 
