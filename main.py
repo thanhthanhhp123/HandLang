@@ -30,7 +30,7 @@ train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size,
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
-model = resnet50()
+model = resnet50(weights='DEFAULT')
 model.fc = nn.Linear(2048, len(dataset.classes))
 model = model.cuda()
 
