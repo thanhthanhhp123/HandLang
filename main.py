@@ -23,9 +23,12 @@ transform = transforms.Compose([
 ])
 
 dataset = HandDataset('data_mask', transform=transform)
-train_set, val_set = torch.utils.data.random_split(dataset, [800, 200])
-train_loader = DataLoader(train_set, batch_size=4, shuffle=True)
-val_loader = DataLoader(val_set, batch_size=4, shuffle=False)
+train_size = int(0.8 * len(dataset))
+val_size = len(dataset) - train_size
+train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
+
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
 model = resnet50()
 model.fc = nn.Linear(2048, len(dataset.classes))
