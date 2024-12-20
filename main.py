@@ -10,9 +10,9 @@ import pandas as pd
 
 def compute_metrics(y_true, y_pred):
     accuracy = accuracy_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred)
-    recall = recall_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred, average='macro')
+    precision = precision_score(y_true, y_pred, average='macro')
+    recall = recall_score(y_true, y_pred, average='macro')
     return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
 
 transform = transforms.Compose([

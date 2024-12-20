@@ -27,6 +27,7 @@ class HandDataset(Dataset):
     def __init__(self, root, transform=None):
         self.dataset = ImageFolder(root)
         self.transform = transform
+        self.classes = self.dataset.classes
 
     def __len__(self):
         return len(self.dataset)
