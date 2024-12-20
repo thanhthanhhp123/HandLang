@@ -56,7 +56,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     for mask, label in dataloader:
         print(mask.size(), label)
-        plt.imshow(mask[0].permute(1, 2, 0))
+        plt.imshow(mask[0].permute(1, 2, 0), cmap='gray')
         plt.show()
         break
 
