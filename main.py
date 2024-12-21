@@ -16,10 +16,10 @@ def compute_metrics(y_true, y_pred):
     return {"accuracy": accuracy, "f1": f1, "precision": precision, "recall": recall}
 
 transform = transforms.Compose([
+    transforms.Grayscale(),
     transforms.Resize((224, 224)),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0,5], std=[0.5])
 ])
 
 dataset = HandDataset('data_mask', transform=transform)

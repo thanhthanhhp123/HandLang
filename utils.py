@@ -47,10 +47,9 @@ class HandDataset(Dataset):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     transform = transforms.Compose([
-        # transforms.Grayscale(),
+        transforms.Grayscale(),
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(),
-        # transforms.RandomVerticalFlip(),
         transforms.ToTensor()
     ])
     
@@ -59,7 +58,7 @@ if __name__ == '__main__':
     
     for mask, label in dataloader:
         plt.imshow(mask[0].permute(1, 2, 0))
-        plt.title(dataset.classes[label[0].item()])
+        plt.legend(dataset.classes[label[0]])
         plt.show()
         break
 
