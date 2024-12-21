@@ -16,6 +16,7 @@ classes = dataset.classes
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 model = resnet50(weights=None)
+model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 model.fc = nn.Linear(2048, 10)
 model.load_state_dict(torch.load('model.pth', map_location=device))
 
@@ -50,18 +51,20 @@ def camera():
         if not ret:
             print("Error: failed to capture image")
             break
-        
+        # image = copy.deepcopy(frame)
         frame = cv2.flip(frame, 1)
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        cv2.rectangle(frame, (int(cap_region_x_begin * frame.shape[1]), 0), (frame.shape[1], int(cap_region_y_end * frame.shape[0])), (0, 255, 0), 2)
+        # cv2.rectangle(frame, (int(cap_region_x_begin * frame.shape[1]), 0), 
+        #               (frame.shape[1], int(cap_region_y_end * frame.shape[0])), (0, 255, 0), 2)
+        
+        # frame = cv2.flip(frame, 1)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        cv2.rectangle(frame, (int(cap_region_x_begin * frame.shape[1]), 0), 
+                      (frame.shape[1], int(cap_region_y_end * frame.shape[0])), (0, 255, 0), 2)
         roi = frame[0:int(cap_region_y_end * frame.shape[0]), int(cap_region_x_begin * frame.shape[1]):]
         prediction = predict(roi)
         cv2.putText(frame, prediction, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-
         cv2.imshow('frame', frame)
-
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        cv2.imshow('roi', to_mask(roi))
 
     cap.release()
     cv2.destroyAllWindows()
