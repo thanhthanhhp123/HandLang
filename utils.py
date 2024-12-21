@@ -45,6 +45,7 @@ class HandDataset(Dataset):
         return mask, label
     
 if __name__ == '__main__':
+    import matplotlib.pyplot as plt
     transform = transforms.Compose([
         # transforms.Grayscale(),
         transforms.Resize((224, 224)),
@@ -57,7 +58,9 @@ if __name__ == '__main__':
     dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
     
     for mask, label in dataloader:
-        print(mask.shape, label)
+        plt.imshow(mask[0].permute(1, 2, 0))
+        plt.title(dataset.classes[label[0].item()])
+        plt.show()
         break
 
 

@@ -15,7 +15,6 @@ classes = os.listdir('data_mask')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 model = resnet50(weights=None)
-model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 model.fc = nn.Linear(2048, 10)
 
 model = model.to(device)

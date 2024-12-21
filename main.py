@@ -37,7 +37,7 @@ model = model.cuda()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-5)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=1e-5)
 
 metrics_history = []
 for epoch in range(10):
