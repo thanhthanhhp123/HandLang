@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision import transforms
 from torch.utils.data import DataLoader
 from utils import HandDataset
-from torchvision.models import resnet50
+from torchvision.models import resnet18
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pandas as pd
 
@@ -30,9 +30,9 @@ train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size,
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
-model = resnet50(weights='DEFAULT')
+model = resnet18(pretrained=True)
 model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-model.fc = nn.Linear(2048, len(dataset.classes))
+model.fc = nn.Linear(512, 10)
 model = model.cuda()
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
